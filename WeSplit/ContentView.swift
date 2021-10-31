@@ -46,6 +46,20 @@ struct ContentView: View {
                     
                 }
                 
+                Section {
+                    Picker("Tip percentage", selection: $tipPercentage){
+                        ForEach(tipPercentages, id:\.self){
+                            if #available(iOS 15.0, *) {
+                                Text($0, format: .percent)
+                            } else {
+                                // Fallback on earlier versions
+                            }
+                        }
+                    }.pickerStyle(.segmented)
+                } header: {
+                    Text("How much tip do you want to leave? ")
+                }
+                
             }
             .navigationTitle("WeSplit")
             
