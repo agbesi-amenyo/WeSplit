@@ -23,9 +23,17 @@ struct ContentView: View {
         
         let grandTotal = checkAmount + tipValue
         let amountPerPerson = grandTotal/peopleCount
-
         
         return amountPerPerson
+        
+    }
+    
+    var totalAmout : Double {
+        let tipSelection = Double (tipPercentage )
+        let tipValue = checkAmount/100 * tipSelection
+        
+        let grandTotal = checkAmount + tipValue
+        return grandTotal
         
     }
     
@@ -54,16 +62,30 @@ struct ContentView: View {
                 
                 Section {
                     Picker("Tip percentage", selection: $tipPercentage){
-                        ForEach(tipPercentages, id:\.self){
+                        ForEach(0..<101){
                             if #available(iOS 15.0, *) {
                                 Text($0, format: .percent)
                             } else {
                                 // Fallback on earlier versions
                             }
                         }
-                    }.pickerStyle(.segmented)
+                    }
+//                    .pickerStyle(.segmented)
                 } header: {
                     Text("How much tip do you want to leave? ")
+                }
+                
+                
+                Section {
+                    if #available(iOS 15.0, *) {
+                        Text(totalAmout, format: .currency(code: Locale.current.currencyCode ?? "EUR"))
+                    } else {
+                        // Fallback on earlier versions
+                    }
+                  
+                    
+                }header: {
+                    Text("Total Amount for the Check")
                 }
                 
                 
@@ -76,7 +98,7 @@ struct ContentView: View {
                   
                     
                 }header: {
-                    Text("Here is how much you will pay :")
+                    Text("Amount Per Person")
                 }
                 
             }
